@@ -13,6 +13,7 @@ import com.zedevstuds.itunesfinder.ALBUM_ID
 import com.zedevstuds.itunesfinder.R
 import com.zedevstuds.itunesfinder.databinding.FragmentMainScreenBinding
 import com.zedevstuds.itunesfinder.network.list_of_albums.AlbumModel
+import com.zedevstuds.itunesfinder.reformatQuery
 
 class MainScreenFragment : Fragment() {
 
@@ -48,15 +49,11 @@ class MainScreenFragment : Fragment() {
         binding.searchBtn.setOnClickListener {
             val enteredQuery = binding.searchEditText.text.toString()
             val searchQuery = reformatQuery(enteredQuery)
-            viewModel.getAlbums(reformatQuery(enteredQuery))
+            viewModel.getAlbums(searchQuery)
             Toast.makeText(this.context, searchQuery, Toast.LENGTH_LONG).show()
         }
 
         return binding.root
-    }
-
-    private fun reformatQuery(text: String): String {
-        return text.replace(" ", "+")
     }
 
 }

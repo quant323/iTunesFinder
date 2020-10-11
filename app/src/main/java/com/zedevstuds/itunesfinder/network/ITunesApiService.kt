@@ -25,7 +25,7 @@ private val retrofit = Retrofit.Builder()
     .client(getClient())
     .build()
 
-// Interception (tag in logcat - OkHttp)
+// Для возможности логирования запросов Retrofit (tag in logcat - OkHttp)
 fun getClient(): OkHttpClient {
     val interceptor = HttpLoggingInterceptor()
     interceptor.level = HttpLoggingInterceptor.Level.BODY

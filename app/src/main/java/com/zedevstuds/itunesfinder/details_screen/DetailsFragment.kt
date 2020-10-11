@@ -33,7 +33,7 @@ class DetailsFragment : Fragment() {
         setView(album)
 
         observerSongs = Observer {
-            binding.listOfSongs.text = "Songs: ${it[1].trackName}"
+            binding.listOfSongs.text = getString(R.string.songs_list, getSongList(it))
         }
 
         viewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
@@ -57,6 +57,14 @@ class DetailsFragment : Fragment() {
                     .error(R.drawable.ic_broken_image_24))
                 .into(binding.albumImageBig)
         }
+    }
+
+    private fun getSongList(songs: List<SongModel>): String {
+        val result = StringBuilder("")
+        for (i in 1 until songs.size) {
+            result.append(i).append(". ").append(songs[i].trackName).append("\n")
+        }
+        return result.toString()
     }
 
 

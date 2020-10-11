@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">iTunesFinder</string>
-
+    <string name="songs_list">Songs: \n%s</string>
 </resources>

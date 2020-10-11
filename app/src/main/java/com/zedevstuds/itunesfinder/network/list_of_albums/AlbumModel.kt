@@ -17,7 +17,7 @@ data class AlbumModel(
     val collectionViewUrl: String,
     val artworkUrl60: String,
     val artworkUrl100: String,
-    val collectionPrice: Double,
+    val collectionPrice: Double = 0.0,
     val collectionExplicitness: String,
     val trackCount: Long,
     val copyright: String,
