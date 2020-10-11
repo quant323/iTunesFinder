@@ -10,14 +10,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel : ViewModel() {
+class MainScreenViewModel : ViewModel() {
 
     private val term = "Master+of+Puppets"
     private val media = "music"
     private val resultType = "album"
 
-    private val _albums = MutableLiveData<String>()
-    val albums: LiveData<String>
+    private val _albums = MutableLiveData<List<AlbumModel>>()
+    val albums: LiveData<List<AlbumModel>>
         get() = _albums
 
 
@@ -30,11 +30,11 @@ class MainViewModel : ViewModel() {
         ITunesApi.retrofitService.getAlbums(term, media, resultType).enqueue(
             object : Callback<ResponseModel> {
                 override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
-                    _albums.value = response.body()?.results?.get(0)?.artworkUrl100
+                    _albums.value = response.body()?.results
                 }
 
                 override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
-                    _albums.value = "Failure: " + t.message
+                    _albums.value = ArrayList()
                 }
             }
         )
