@@ -30,13 +30,12 @@ class MainViewModel : ViewModel() {
         ITunesApi.retrofitService.getAlbums(term, media, resultType).enqueue(
             object : Callback<ResponseModel> {
                 override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
-                    _albums.value = "Success: ${response.body()?.results?.get(0)?.artistName}"
+                    _albums.value = response.body()?.results?.get(0)?.artworkUrl100
                 }
 
                 override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
                     _albums.value = "Failure: " + t.message
                 }
-
             }
         )
     }

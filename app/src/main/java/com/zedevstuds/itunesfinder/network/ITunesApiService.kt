@@ -19,14 +19,21 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .build()
 
-// https://itunes.apple.com/search?term=Master+of+Puppets&media=music&entity=album
 interface ITunesApiService {
+    // https://itunes.apple.com/search?term=Master+of+Puppets&media=music&entity=album
     @GET("search")
     fun getAlbums(
         @Query("term") term: String,
         @Query("media") media: String,
         @Query("entity") resultType: String
     ): Call<ResponseModel>
+
+    // https://itunes.apple.com/lookup?id=1275551221&entity=song
+    @GET("lookup")
+    fun getSongsFromAlbum(
+        @Query("id") albumId: Long,
+        @Query("entity") resultType: String
+    )
 }
 
 object ITunesApi {
