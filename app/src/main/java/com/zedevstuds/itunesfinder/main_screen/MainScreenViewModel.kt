@@ -3,9 +3,9 @@ package com.zedevstuds.itunesfinder.main_screen
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.zedevstuds.itunesfinder.network.AlbumModel
+import com.zedevstuds.itunesfinder.network.list_of_albums.AlbumModel
 import com.zedevstuds.itunesfinder.network.ITunesApi
-import com.zedevstuds.itunesfinder.network.ResponseModel
+import com.zedevstuds.itunesfinder.network.list_of_albums.AlbumListModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,12 +28,12 @@ class MainScreenViewModel : ViewModel() {
 
     private fun getAlbums() {
         ITunesApi.retrofitService.getAlbums(term, media, resultType).enqueue(
-            object : Callback<ResponseModel> {
-                override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
-                    _albums.value = response.body()?.results
+            object : Callback<AlbumListModel> {
+                override fun onResponse(call: Call<AlbumListModel>, albumList: Response<AlbumListModel>) {
+                    _albums.value = albumList.body()?.results
                 }
 
-                override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
+                override fun onFailure(call: Call<AlbumListModel>, t: Throwable) {
                     _albums.value = ArrayList()
                 }
             }

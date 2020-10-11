@@ -1,10 +1,11 @@
-package com.zedevstuds.itunesfinder.network
+package com.zedevstuds.itunesfinder.network.list_of_albums
 
 data class AlbumModel(
     val wrapperType: String,
     val collectionType: String,
-    val artistId: Double,
-    val collectionId: Double,
+    val artistId: Long,
+    val collectionId: Long,
+    val amgArtistId: Long = 0,
     val artistName: String,
     val collectionName: String,
     val collectionCensoredName: String,
@@ -14,7 +15,7 @@ data class AlbumModel(
     val artworkUrl100: String,
     val collectionPrice: Double,
     val collectionExplicitness: String,
-    val trackCount: Double,
+    val trackCount: Long,
     val copyright: String,
     val country: String,
     val currency: String,

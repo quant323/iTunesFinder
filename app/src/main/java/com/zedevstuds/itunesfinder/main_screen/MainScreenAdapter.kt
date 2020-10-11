@@ -9,9 +9,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.zedevstuds.itunesfinder.R
 import com.zedevstuds.itunesfinder.databinding.AlbumItemBinding
-import com.zedevstuds.itunesfinder.network.AlbumModel
+import com.zedevstuds.itunesfinder.network.list_of_albums.AlbumModel
 
-class MainScreenAdapter : ListAdapter<AlbumModel, MainScreenAdapter.AlbumViewHolder>(DiffCallback) {
+class MainScreenAdapter(private val onClickListener: OnClickListener) : ListAdapter<AlbumModel, MainScreenAdapter.AlbumViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
         return AlbumViewHolder(AlbumItemBinding.inflate(LayoutInflater.from(parent.context)))
@@ -19,6 +19,9 @@ class MainScreenAdapter : ListAdapter<AlbumModel, MainScreenAdapter.AlbumViewHol
 
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
         val album = getItem(position)
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(album.collectionId)
+        }
         holder.bind(album)
     }
 
@@ -42,6 +45,11 @@ class MainScreenAdapter : ListAdapter<AlbumModel, MainScreenAdapter.AlbumViewHol
         override fun areContentsTheSame(oldItem: AlbumModel, newItem: AlbumModel): Boolean {
             return oldItem.collectionId == newItem.collectionId
         }
+    }
+
+
+    class OnClickListener(val clickListener: (albumId: Long) -> Unit) {
+        fun onClick(albumId: Long) = clickListener(albumId)
     }
 
 }

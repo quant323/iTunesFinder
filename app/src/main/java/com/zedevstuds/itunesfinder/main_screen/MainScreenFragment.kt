@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
+import androidx.navigation.fragment.findNavController
+import com.zedevstuds.itunesfinder.ALBUM_ID
+import com.zedevstuds.itunesfinder.R
 import com.zedevstuds.itunesfinder.databinding.FragmentMainScreenBinding
-import com.zedevstuds.itunesfinder.network.AlbumModel
+import com.zedevstuds.itunesfinder.network.list_of_albums.AlbumModel
 
 class MainScreenFragment : Fragment() {
 
@@ -25,7 +27,11 @@ class MainScreenFragment : Fragment() {
     ): View? {
         _binding = FragmentMainScreenBinding.inflate(layoutInflater, container, false)
 
-        val adapter = MainScreenAdapter()
+        val adapter = MainScreenAdapter(MainScreenAdapter.OnClickListener {albumId ->
+            val bundle = Bundle()
+            bundle.putLong(ALBUM_ID, albumId)
+            this.findNavController().navigate(R.id.action_mainFragment_to_detailsFragment, bundle)
+        })
         binding.albumResView.adapter = adapter
 
         observerAlbums = Observer { albumList ->

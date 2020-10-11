@@ -2,6 +2,7 @@ package com.zedevstuds.itunesfinder.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.zedevstuds.itunesfinder.network.list_of_albums.AlbumListModel
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -26,7 +27,7 @@ interface ITunesApiService {
         @Query("term") term: String,
         @Query("media") media: String,
         @Query("entity") resultType: String
-    ): Call<ResponseModel>
+    ): Call<AlbumListModel>
 
     // https://itunes.apple.com/lookup?id=1275551221&entity=song
     @GET("lookup")
