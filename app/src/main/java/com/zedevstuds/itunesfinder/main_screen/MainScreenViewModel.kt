@@ -22,11 +22,10 @@ class MainScreenViewModel : ViewModel() {
 
 
     init {
-        getAlbums()
+        getAlbums(term)
     }
 
-
-    private fun getAlbums() {
+    private fun getAlbums(term: String) {
         ITunesApi.retrofitService.getAlbums(term, media, resultType).enqueue(
             object : Callback<AlbumListModel> {
                 override fun onResponse(call: Call<AlbumListModel>, albumList: Response<AlbumListModel>) {

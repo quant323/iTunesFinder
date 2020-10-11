@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -27,15 +28,16 @@ class MainScreenFragment : Fragment() {
     ): View? {
         _binding = FragmentMainScreenBinding.inflate(layoutInflater, container, false)
 
-        val adapter = MainScreenAdapter(MainScreenAdapter.OnClickListener {albumId ->
+        val adapter = MainScreenAdapter(MainScreenAdapter.OnClickListener {album ->
             val bundle = Bundle()
-            bundle.putLong(ALBUM_ID, albumId)
+            bundle.putParcelable(ALBUM_ID, album)
             this.findNavController().navigate(R.id.action_mainFragment_to_detailsFragment, bundle)
         })
         binding.albumResView.adapter = adapter
 
         observerAlbums = Observer { albumList ->
             adapter.submitList(albumList)
+            Toast.makeText(this.context, "Size is ${albumList.size}", Toast.LENGTH_LONG).show()
         }
 
         screenViewModel = ViewModelProvider(this).get(MainScreenViewModel::class.java)

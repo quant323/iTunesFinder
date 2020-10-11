@@ -2,6 +2,7 @@ package com.zedevstuds.itunesfinder.main_screen
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +21,7 @@ class MainScreenAdapter(private val onClickListener: OnClickListener) : ListAdap
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
         val album = getItem(position)
         holder.itemView.setOnClickListener {
-            onClickListener.onClick(album.collectionId)
+            onClickListener.onClick(album)
         }
         holder.bind(album)
     }
@@ -30,9 +31,10 @@ class MainScreenAdapter(private val onClickListener: OnClickListener) : ListAdap
         fun bind(album: AlbumModel) {
             binding.artistTextView.text = album.collectionName
             binding.albumTextView.text = album.artistName
+ //           val imgUri = album.artworkUrl100.toUri().buildUpon().scheme("https").build()
             Glide.with(binding.root.context).load(album.artworkUrl100)
-                .apply(RequestOptions().placeholder(R.drawable.loading_animation)
-                        .error(R.drawable.ic_broken_image_24))
+//                .apply(RequestOptions().placeholder(R.drawable.loading_animation)
+//                        .error(R.drawable.ic_broken_image_24))
                 .into(binding.albumImageSmall)
         }
     }
@@ -48,8 +50,8 @@ class MainScreenAdapter(private val onClickListener: OnClickListener) : ListAdap
     }
 
 
-    class OnClickListener(val clickListener: (albumId: Long) -> Unit) {
-        fun onClick(albumId: Long) = clickListener(albumId)
+    class OnClickListener(val clickListener: (album: AlbumModel) -> Unit) {
+        fun onClick(album: AlbumModel) = clickListener(album)
     }
 
 }

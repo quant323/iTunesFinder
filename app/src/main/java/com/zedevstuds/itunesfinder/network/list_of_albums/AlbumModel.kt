@@ -1,5 +1,9 @@
 package com.zedevstuds.itunesfinder.network.list_of_albums
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class AlbumModel(
     val wrapperType: String,
     val collectionType: String,
@@ -21,4 +25,4 @@ data class AlbumModel(
     val currency: String,
     val releaseDate: String,
     val primaryGenreName: String
-)
+) : Parcelable
