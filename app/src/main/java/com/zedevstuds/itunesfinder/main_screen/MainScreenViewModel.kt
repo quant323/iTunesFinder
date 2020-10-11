@@ -22,16 +22,11 @@ class MainScreenViewModel : ViewModel() {
     val albums: LiveData<List<AlbumModel>>
         get() = _albums
 
-
-//    init {
-//        getAlbums(term)
-//    }
-
     fun getAlbums(term: String) {
         ITunesApi.retrofitService.getAlbums(term, media, resultType, albumTerm, explicit).enqueue(
             object : Callback<AlbumListModel> {
                 override fun onResponse(call: Call<AlbumListModel>, albumList: Response<AlbumListModel>) {
-                    _albums.value = albumList.body()?.results
+                    _albums.value = albumList.body()?.results?.sortedBy { it.collectionName }
                     Log.d("mainScreen", "Success")
                 }
 
