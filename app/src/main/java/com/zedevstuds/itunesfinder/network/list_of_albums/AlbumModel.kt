@@ -13,7 +13,7 @@ data class AlbumModel(
     val artistName: String,
     val collectionName: String,
     val collectionCensoredName: String,
-    val artistViewUrl: String,
+ //   val artistViewUrl: String,
     val collectionViewUrl: String,
     val artworkUrl60: String,
     val artworkUrl100: String,

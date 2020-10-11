@@ -2,8 +2,11 @@ package com.zedevstuds.itunesfinder.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.zedevstuds.itunesfinder.BuildConfig
 import com.zedevstuds.itunesfinder.network.list_of_albums.AlbumListModel
 import com.zedevstuds.itunesfinder.network.list_of_songs.SongListModel
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -19,15 +22,30 @@ private val moshi = Moshi.Builder()
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .baseUrl(BASE_URL)
+    .client(getClient())
     .build()
 
+// Interception (tag in logcat - OkHttp)
+fun getClient(): OkHttpClient {
+    val interceptor = HttpLoggingInterceptor()
+    interceptor.level = HttpLoggingInterceptor.Level.BODY
+    val client = OkHttpClient.Builder()
+        .addInterceptor(interceptor)
+        .build()
+    return client
+}
+
+
 interface ITunesApiService {
-    // https://itunes.apple.com/search?term=Master+of+Puppets&media=music&entity=album
+    // https://itunes.apple.com/search?term=load&media=music&entity=album&attribute=albumTerm&explicit=no
     @GET("search")
     fun getAlbums(
-        @Query("term") term: String,    // Master+of+Puppets
+        //  (encoded = true, иначе при совершении запроса + заменяется на %2B)
+        @Query("term", encoded = true) term: String,    // load
         @Query("media") media: String,  // music
-        @Query("entity") resultType: String // album
+        @Query("entity") resultType: String, // album
+        @Query("attribute") attribute: String, // albumTerm
+        @Query("explicit") explicit: String // no
     ): Call<AlbumListModel>
 
     // https://itunes.apple.com/lookup?id=1275551221&entity=song

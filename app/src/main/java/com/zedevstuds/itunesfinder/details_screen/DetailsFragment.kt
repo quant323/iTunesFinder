@@ -12,17 +12,15 @@ import com.bumptech.glide.request.RequestOptions
 import com.zedevstuds.itunesfinder.ALBUM_ID
 import com.zedevstuds.itunesfinder.R
 import com.zedevstuds.itunesfinder.databinding.FragmentDetailsBinding
-import com.zedevstuds.itunesfinder.databinding.FragmentMainScreenBinding
 import com.zedevstuds.itunesfinder.network.list_of_albums.AlbumModel
 import com.zedevstuds.itunesfinder.network.list_of_songs.SongModel
-import java.util.*
 
 class DetailsFragment : Fragment() {
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var detailsViewModel: DetailsViewModel
+    private lateinit var viewModel: DetailsViewModel
     private lateinit var observerSongs: Observer<List<SongModel>>
 
     override fun onCreateView(
@@ -38,10 +36,10 @@ class DetailsFragment : Fragment() {
             binding.listOfSongs.text = "Songs: ${it[1].trackName}"
         }
 
-        detailsViewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
-        detailsViewModel.songs.observe(viewLifecycleOwner, observerSongs)
+        viewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
+        viewModel.songs.observe(viewLifecycleOwner, observerSongs)
 
-        detailsViewModel.getSongsFromAlbum(album?.collectionId)
+        viewModel.getSongsFromAlbum(album?.collectionId)
 
         return binding.root
     }
@@ -55,8 +53,8 @@ class DetailsFragment : Fragment() {
             binding.priceTextView.text = album.collectionPrice.toString()
 
             Glide.with(this).load(album.artworkUrl100)
-//                .apply(RequestOptions().placeholder(R.drawable.loading_animation)
-//                    .error(R.drawable.ic_broken_image_24))
+                .apply(RequestOptions().placeholder(R.drawable.loading_animation)
+                    .error(R.drawable.ic_broken_image_24))
                 .into(binding.albumImageBig)
         }
     }

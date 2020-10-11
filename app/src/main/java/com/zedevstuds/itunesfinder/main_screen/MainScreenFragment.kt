@@ -19,7 +19,7 @@ class MainScreenFragment : Fragment() {
     private var _binding: FragmentMainScreenBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var screenViewModel: MainScreenViewModel
+    private lateinit var viewModel: MainScreenViewModel
     private lateinit var observerAlbums: Observer<List<AlbumModel>>
 
     override fun onCreateView(
@@ -35,15 +35,28 @@ class MainScreenFragment : Fragment() {
         })
         binding.albumResView.adapter = adapter
 
+
+
         observerAlbums = Observer { albumList ->
             adapter.submitList(albumList)
-            Toast.makeText(this.context, "Size is ${albumList.size}", Toast.LENGTH_LONG).show()
+            Toast.makeText(this.context, "Size is ${albumList.size}", Toast.LENGTH_SHORT).show()
         }
 
-        screenViewModel = ViewModelProvider(this).get(MainScreenViewModel::class.java)
-        screenViewModel.albums.observe(viewLifecycleOwner, observerAlbums)
+        viewModel = ViewModelProvider(this).get(MainScreenViewModel::class.java)
+        viewModel.albums.observe(viewLifecycleOwner, observerAlbums)
+
+        binding.searchBtn.setOnClickListener {
+            val enteredQuery = binding.searchEditText.text.toString()
+            val searchQuery = reformatQuery(enteredQuery)
+            viewModel.getAlbums(reformatQuery(enteredQuery))
+            Toast.makeText(this.context, searchQuery, Toast.LENGTH_LONG).show()
+        }
 
         return binding.root
+    }
+
+    private fun reformatQuery(text: String): String {
+        return text.replace(" ", "+")
     }
 
 }
