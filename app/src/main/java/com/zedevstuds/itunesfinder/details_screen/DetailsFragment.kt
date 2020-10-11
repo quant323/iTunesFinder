@@ -12,6 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.zedevstuds.itunesfinder.ALBUM_ID
 import com.zedevstuds.itunesfinder.R
 import com.zedevstuds.itunesfinder.databinding.FragmentDetailsBinding
+import com.zedevstuds.itunesfinder.getSongList
 import com.zedevstuds.itunesfinder.network.list_of_albums.AlbumModel
 import com.zedevstuds.itunesfinder.network.list_of_songs.SongModel
 
@@ -58,14 +59,5 @@ class DetailsFragment : Fragment() {
                 .into(binding.albumImageBig)
         }
     }
-
-    private fun getSongList(songs: List<SongModel>): String {
-        val result = StringBuilder("")
-        for (i in 1 until songs.size) {
-            result.append(i).append(". ").append(songs[i].trackName).append("\n")
-        }
-        return result.toString()
-    }
-
 
 }
