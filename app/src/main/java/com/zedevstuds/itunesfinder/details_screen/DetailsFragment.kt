@@ -21,7 +21,6 @@ class DetailsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: DetailsViewModel
-    private lateinit var observerSongs: Observer<List<AlbumSongModel>>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,12 +30,10 @@ class DetailsFragment : Fragment() {
 
         val albumId = arguments?.getLong(ALBUM_ID)
 
-        observerSongs = Observer {
-            setView(it)
-        }
-
         viewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
-        viewModel.songs.observe(viewLifecycleOwner, observerSongs)
+        viewModel.songs.observe(viewLifecycleOwner, Observer {
+            setView(it)
+        })
 
         viewModel.getSongsFromAlbum(albumId)
 

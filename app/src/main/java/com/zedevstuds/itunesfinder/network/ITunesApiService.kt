@@ -2,6 +2,7 @@ package com.zedevstuds.itunesfinder.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.zedevstuds.itunesfinder.BuildConfig
 import com.zedevstuds.itunesfinder.network.models.ResponseModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -26,19 +27,19 @@ private val retrofit = Retrofit.Builder()
 // Для возможности логирования запросов Retrofit (tag in logcat - OkHttp)
 fun getClient(): OkHttpClient {
     val interceptor = HttpLoggingInterceptor()
-    interceptor.level = HttpLoggingInterceptor.Level.BODY
+    interceptor.level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
+                        else HttpLoggingInterceptor.Level.NONE
     val client = OkHttpClient.Builder()
         .addInterceptor(interceptor)
         .build()
     return client
 }
 
-
 interface ITunesApiService {
     // https://itunes.apple.com/search?term=load&media=music&entity=album&attribute=albumTerm&explicit=no
     @GET("search")
     fun getAlbums(
-        //  (encoded = true, иначе при совершении запроса + заменяется на %2B)
+        //  (encoded = true, иначе при совершении запроса знак + заменяется на %2B)
         @Query("term", encoded = true) term: String,    // load
         @Query("media") media: String,  // music
         @Query("entity") resultType: String, // album
@@ -55,7 +56,7 @@ interface ITunesApiService {
 }
 
 object ITunesApi {
-    val retrofitService : ITunesApiService by lazy {
+    val retrofitService: ITunesApiService by lazy {
         retrofit.create(ITunesApiService::class.java)
     }
 }

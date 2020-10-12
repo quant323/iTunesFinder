@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import com.zedevstuds.itunesfinder.ALBUM_ID
 import com.zedevstuds.itunesfinder.R
 import com.zedevstuds.itunesfinder.databinding.FragmentMainScreenBinding
-import com.zedevstuds.itunesfinder.network.models.AlbumSongModel
 import com.zedevstuds.itunesfinder.reformatQuery
 
 class MainScreenFragment : Fragment() {
@@ -21,7 +20,6 @@ class MainScreenFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: MainScreenViewModel
-    private lateinit var observerAlbums: Observer<List<AlbumSongModel>>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,19 +34,16 @@ class MainScreenFragment : Fragment() {
         })
         binding.albumResView.adapter = adapter
 
-        observerAlbums = Observer { albumList ->
-            adapter.submitList(albumList)
-            Toast.makeText(this.context, "Size is ${albumList.size}", Toast.LENGTH_SHORT).show()
-        }
-
         viewModel = ViewModelProvider(this).get(MainScreenViewModel::class.java)
-        viewModel.albums.observe(viewLifecycleOwner, observerAlbums)
+        viewModel.albums.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+            Toast.makeText(this.context, "Size is ${it.size}", Toast.LENGTH_SHORT).show()
+        })
 
         binding.searchBtn.setOnClickListener {
             val enteredQuery = binding.searchEditText.text.toString()
             val searchQuery = reformatQuery(enteredQuery)
             viewModel.getAlbums(searchQuery)
-            Toast.makeText(this.context, searchQuery, Toast.LENGTH_LONG).show()
         }
         return binding.root
     }
