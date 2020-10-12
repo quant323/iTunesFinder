@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">iTunesFinder</string>
+
+    <string name="artist_name">Artist: %s</string>
+    <string name="album_name">Album: %s</string>
+    <string name="genre"> Genre: %s</string>
+    <string name="release_date">Release Date: %s</string>
+    <string name="price">Price: %.2f%s</string>
     <string name="songs_list">Songs: \n%s</string>
 </resources>
