@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.zedevstuds.itunesfinder.ALBUM_ID
 import com.zedevstuds.itunesfinder.R
 import com.zedevstuds.itunesfinder.databinding.FragmentMainScreenBinding
-import com.zedevstuds.itunesfinder.network.list_of_albums.AlbumModel
+import com.zedevstuds.itunesfinder.network.models.AlbumSongModel
 import com.zedevstuds.itunesfinder.reformatQuery
 
 class MainScreenFragment : Fragment() {
@@ -21,7 +21,7 @@ class MainScreenFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: MainScreenViewModel
-    private lateinit var observerAlbums: Observer<List<AlbumModel>>
+    private lateinit var observerAlbums: Observer<List<AlbumSongModel>>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,14 +29,12 @@ class MainScreenFragment : Fragment() {
     ): View? {
         _binding = FragmentMainScreenBinding.inflate(layoutInflater, container, false)
 
-        val adapter = MainScreenAdapter(MainScreenAdapter.OnClickListener {album ->
+        val adapter = MainScreenAdapter(MainScreenAdapter.OnClickListener {
             val bundle = Bundle()
-            bundle.putParcelable(ALBUM_ID, album)
+            bundle.putLong(ALBUM_ID, it.collectionId)
             this.findNavController().navigate(R.id.action_mainFragment_to_detailsFragment, bundle)
         })
         binding.albumResView.adapter = adapter
-
-
 
         observerAlbums = Observer { albumList ->
             adapter.submitList(albumList)
@@ -52,7 +50,6 @@ class MainScreenFragment : Fragment() {
             viewModel.getAlbums(searchQuery)
             Toast.makeText(this.context, searchQuery, Toast.LENGTH_LONG).show()
         }
-
         return binding.root
     }
 

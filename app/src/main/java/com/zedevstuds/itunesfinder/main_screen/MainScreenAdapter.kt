@@ -2,7 +2,6 @@ package com.zedevstuds.itunesfinder.main_screen
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,9 +9,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.zedevstuds.itunesfinder.R
 import com.zedevstuds.itunesfinder.databinding.AlbumItemBinding
-import com.zedevstuds.itunesfinder.network.list_of_albums.AlbumModel
+import com.zedevstuds.itunesfinder.network.models.AlbumSongModel
 
-class MainScreenAdapter(private val onClickListener: OnClickListener) : ListAdapter<AlbumModel, MainScreenAdapter.AlbumViewHolder>(DiffCallback) {
+class MainScreenAdapter(private val onClickListener: OnClickListener) : ListAdapter<AlbumSongModel, MainScreenAdapter.AlbumViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
         return AlbumViewHolder(AlbumItemBinding.inflate(LayoutInflater.from(parent.context)))
@@ -28,7 +27,7 @@ class MainScreenAdapter(private val onClickListener: OnClickListener) : ListAdap
 
 
     class AlbumViewHolder(private val binding: AlbumItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(album: AlbumModel) {
+        fun bind(album: AlbumSongModel) {
             binding.artistTextView.text = album.collectionName
             binding.albumTextView.text = album.artistName
  //           val imgUri = album.artworkUrl100.toUri().buildUpon().scheme("https").build()
@@ -39,19 +38,19 @@ class MainScreenAdapter(private val onClickListener: OnClickListener) : ListAdap
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<AlbumModel>() {
-        override fun areItemsTheSame(oldItem: AlbumModel, newItem: AlbumModel): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<AlbumSongModel>() {
+        override fun areItemsTheSame(oldItem: AlbumSongModel, newItem: AlbumSongModel): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: AlbumModel, newItem: AlbumModel): Boolean {
+        override fun areContentsTheSame(oldItem: AlbumSongModel, newItem: AlbumSongModel): Boolean {
             return oldItem.collectionId == newItem.collectionId
         }
     }
 
 
-    class OnClickListener(val clickListener: (album: AlbumModel) -> Unit) {
-        fun onClick(album: AlbumModel) = clickListener(album)
+    class OnClickListener(val clickListener: (album: AlbumSongModel) -> Unit) {
+        fun onClick(album: AlbumSongModel) = clickListener(album)
     }
 
 }

@@ -2,9 +2,7 @@ package com.zedevstuds.itunesfinder.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.zedevstuds.itunesfinder.BuildConfig
-import com.zedevstuds.itunesfinder.network.list_of_albums.AlbumListModel
-import com.zedevstuds.itunesfinder.network.list_of_songs.SongListModel
+import com.zedevstuds.itunesfinder.network.models.ResponseModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -46,14 +44,14 @@ interface ITunesApiService {
         @Query("entity") resultType: String, // album
         @Query("attribute") attribute: String, // albumTerm
         @Query("explicit") explicit: String // no
-    ): Call<AlbumListModel>
+    ): Call<ResponseModel>
 
     // https://itunes.apple.com/lookup?id=1275551221&entity=song
     @GET("lookup")
     fun getSongsFromAlbum(
         @Query("id") albumId: Long?,         // 1275551221
         @Query("entity") resultType: String // song
-    ): Call<SongListModel>
+    ): Call<ResponseModel>
 }
 
 object ITunesApi {
