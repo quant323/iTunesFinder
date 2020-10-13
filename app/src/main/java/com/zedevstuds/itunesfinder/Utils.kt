@@ -1,8 +1,5 @@
 package com.zedevstuds.itunesfinder
 
-import android.content.Context
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import com.zedevstuds.itunesfinder.network.models.AlbumSongModel
 
 const val ALBUM_ID = "albumId"
