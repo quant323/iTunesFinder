@@ -22,11 +22,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +75,7 @@
                 app:layout_constraintStart_toStartOf="@+id/artist_detail_textView"
                 app:layout_constraintTop_toBottomOf="@+id/price_textView"
                 tools:text="Songs: \n1. Battery
-                                   \n2. Master of Pappets
+                                   \n2. Master of Puppets
                                    \n3. Welcome Home (Sanitarium)" />
 
         </LinearLayout>

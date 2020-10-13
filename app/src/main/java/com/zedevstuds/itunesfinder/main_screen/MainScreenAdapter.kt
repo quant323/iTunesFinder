@@ -28,9 +28,10 @@ class MainScreenAdapter(private val onClickListener: OnClickListener) : ListAdap
 
     class AlbumViewHolder(private val binding: AlbumItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(album: AlbumSongModel) {
+            // Устанваливаетм знаяения в TextView
             binding.artistTextView.text = album.collectionName
             binding.albumTextView.text = album.artistName
- //           val imgUri = album.artworkUrl100.toUri().buildUpon().scheme("https").build()
+            // Загружаем и устанавливаем картинку
             Glide.with(binding.root.context).load(album.artworkUrl100)
                 .apply(RequestOptions().placeholder(R.drawable.loading_animation)
                         .error(R.drawable.ic_broken_image_24))

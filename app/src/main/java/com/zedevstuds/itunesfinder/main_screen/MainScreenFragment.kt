@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -29,25 +28,29 @@ class MainScreenFragment : Fragment() {
     ): View? {
         _binding = FragmentMainScreenBinding.inflate(layoutInflater, container, false)
 
+        // Создаем adapter и устанавливаем onClickListener на каждый элемент списка
         val adapter = MainScreenAdapter(MainScreenAdapter.OnClickListener {
             val bundle = Bundle()
             bundle.putLong(ALBUM_ID, it.collectionId)
+            // Передаем id альбома в DetailsActivity
             this.findNavController().navigate(R.id.action_mainFragment_to_detailsFragment, bundle)
         })
         binding.albumResView.adapter = adapter
 
         viewModel = ViewModelProvider(this).get(MainScreenViewModel::class.java)
         viewModel.albums.observe(viewLifecycleOwner, Observer {
+            // Сообщаем адаптеру об изменении списка
             adapter.submitList(it)
+            // Если лист пуст - показываем сообщение
             if (it.isEmpty()) binding.noFoundTextVeiw.visibility = View.VISIBLE
             else binding.noFoundTextVeiw.visibility = View.INVISIBLE
         })
 
+        // Нажатие на кнапку поиска
         binding.searchBtn.setOnClickListener {
             val enteredQuery = binding.searchEditText.text.toString()
             if (enteredQuery.isNotEmpty()) {
                 val searchQuery = reformatQuery(enteredQuery)
-                Toast.makeText(this.context, searchQuery, Toast.LENGTH_SHORT).show()
                 viewModel.getAlbums(searchQuery)
                 hideKeyboard(it)
             }

@@ -19,6 +19,7 @@ class DetailsViewModel : ViewModel() {
     val songs: LiveData<List<AlbumSongModel>>
         get() = _songs
 
+    // Получаем список песен и информацию об альбоме
     fun getSongsFromAlbum(albumId: Long?) {
         ITunesApi.retrofitService.getSongsFromAlbum(albumId, entity).enqueue(
             object : Callback<ResponseModel> {

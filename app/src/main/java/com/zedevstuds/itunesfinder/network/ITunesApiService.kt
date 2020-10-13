@@ -14,6 +14,7 @@ import retrofit2.http.Query
 
 private const val BASE_URL = "https://itunes.apple.com/"
 
+// Создает data class из json
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">iTunesFinder</string>
+
+    <string name="artist_name">Исполнитель: %s</string>
+    <string name="album_name">Альбом: %s</string>
+    <string name="genre"> Жанр: %s</string>
+    <string name="release_date">Дата выхода: %s</string>
+    <string name="price">Цена: %.2f%s</string>
+    <string name="songs_list">Песни: \n%s</string>
+
+    <string name="no_found_text">Альбомов не найдено</string>
+    <string name="search_field_hint">Введите название альбома</string>
+</resources>
