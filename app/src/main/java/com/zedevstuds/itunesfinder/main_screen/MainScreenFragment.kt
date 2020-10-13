@@ -39,6 +39,8 @@ class MainScreenFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(MainScreenViewModel::class.java)
         viewModel.albums.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
+            if (it.isEmpty()) binding.noFoundTextVeiw.visibility = View.VISIBLE
+            else binding.noFoundTextVeiw.visibility = View.INVISIBLE
         })
 
         binding.searchBtn.setOnClickListener {

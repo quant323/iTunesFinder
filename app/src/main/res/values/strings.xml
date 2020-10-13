@@ -7,4 +7,6 @@
     <string name="release_date">Release Date: %s</string>
     <string name="price">Price: %.2f%s</string>
     <string name="songs_list">Songs: \n%s</string>
+
+    <string name="no_found_text">No Albums Found</string>
 </resources>
