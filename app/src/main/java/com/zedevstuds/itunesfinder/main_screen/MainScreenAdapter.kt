@@ -28,7 +28,7 @@ class MainScreenAdapter(private val onClickListener: OnClickListener) : ListAdap
 
     class AlbumViewHolder(private val binding: AlbumItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(album: AlbumSongModel) {
-            // Устанваливаетм знаяения в TextView
+            // Устанваливаетм значения в TextView
             binding.artistTextView.text = album.collectionName
             binding.albumTextView.text = album.artistName
             // Загружаем и устанавливаем картинку

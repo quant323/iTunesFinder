@@ -9,7 +9,7 @@ fun reformatQuery(text: String): String {
     return text.trim().replace("\\s+".toRegex(), "+")
 }
 
-// Возвращает список песен из полученного json листа и вывод каждую с новой строки
+// Возвращает список песен из полученного json листа и выводит каждую с новой строки
 fun getSongList(songs: List<AlbumSongModel>): String {
     val result = StringBuilder("")
     for (i in 1 until songs.size) {

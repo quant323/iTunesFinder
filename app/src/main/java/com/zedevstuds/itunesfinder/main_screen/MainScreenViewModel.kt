@@ -22,7 +22,7 @@ class MainScreenViewModel : ViewModel() {
     val albums: LiveData<List<AlbumSongModel>>
         get() = _albums
 
-    // Запрашиваем список альбомов по переданному значению
+    // Запрашивает список альбомов по переданному значению
     fun getAlbums(term: String) {
         ITunesApi.retrofitService.getAlbums(term, media, resultType, albumTerm, explicit).enqueue(
             object : Callback<ResponseModel> {
