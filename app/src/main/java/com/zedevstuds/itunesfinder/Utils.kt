@@ -4,7 +4,7 @@ import com.zedevstuds.itunesfinder.network.models.AlbumSongModel
 
 const val ALBUM_ID = "albumId"
 
-enum class LoadingStatus { LOADING, ERROR, DONE}
+enum class LoadingStatus { LOADING, ERROR, DONE, EMPTY_LIST}
 
 // Заменяет пробелы на знак +
 fun reformatQuery(text: String): String {

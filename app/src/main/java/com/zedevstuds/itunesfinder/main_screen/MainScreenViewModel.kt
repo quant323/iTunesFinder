@@ -35,9 +35,11 @@ class MainScreenViewModel : ViewModel() {
             object : Callback<ResponseModel> {
                 override fun onResponse(call: Call<ResponseModel>, albumList: Response<ResponseModel>) {
                     // Получаем и сортируем список альбомов
-
-                    _albums.value = albumList.body()?.results?.sortedBy { it.collectionName }
-                    _status.value = LoadingStatus.DONE
+                    val list = albumList.body()?.results
+                    _albums.value = list?.sortedBy { it.collectionName }
+                    if (list?.isNotEmpty()!!)
+                        _status.value = LoadingStatus.DONE
+                    else _status.value = LoadingStatus.EMPTY_LIST
                     Log.d("mainScreen", "Success")
                 }
 

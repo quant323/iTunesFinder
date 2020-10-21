@@ -8,6 +8,7 @@
     <string name="price">Цена: %.2f%s</string>
     <string name="songs_list">Песни: \n%s</string>
 
-    <string name="no_found_text">Альбомов не найдено</string>
+    <string name="empty_list_text">Альбомов не найдено</string>
+    <string name="error_message">Произошла ошибка\nПопробуйте еще раз!</string>
     <string name="search_field_hint">Введите название альбома</string>
 </resources>

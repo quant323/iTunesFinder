@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -43,23 +44,33 @@ class MainScreenFragment : Fragment() {
         viewModel.albums.observe(viewLifecycleOwner, Observer {
             // Сообщаем адаптеру об изменении списка
             adapter.submitList(it)
-            // Если список пуст - показываем сообщение
-            if (it.isEmpty()) binding.noFoundTextVeiw.visibility = View.VISIBLE
-            else binding.noFoundTextVeiw.visibility = View.GONE
         })
 
         // Подписываемся на изменение статуса загрузки
         viewModel.status.observe(viewLifecycleOwner, Observer {status ->
             when(status) {
                 LoadingStatus.LOADING -> {
-                    binding.loadingImageView.setImageResource(R.drawable.loading_animation)
-                    binding.loadingImageView.visibility = View.VISIBLE
+                    Toast.makeText(this.context, "Loadind", Toast.LENGTH_SHORT).show()
+                    binding.loadingProgressBar.visibility = View.VISIBLE
+                    binding.noFoundTextVeiw.visibility = View.GONE
                 }
                 LoadingStatus.DONE -> {
-                    binding.loadingImageView.visibility = View.GONE
+                    binding.loadingProgressBar.visibility = View.GONE
+                    binding.noFoundTextVeiw.visibility = View.GONE
                 }
                 LoadingStatus.ERROR -> {
-
+                    binding.noFoundTextVeiw.text = getString(R.string.error_message)
+                    binding.noFoundTextVeiw.visibility = View.VISIBLE
+                    binding.loadingProgressBar.visibility = View.GONE
+                }
+                LoadingStatus.EMPTY_LIST -> {
+                    binding.noFoundTextVeiw.text = getString(R.string.empty_list_text)
+                    binding.noFoundTextVeiw.visibility = View.VISIBLE
+                    binding.loadingProgressBar.visibility = View.GONE
+                }
+                else -> {
+                    binding.loadingProgressBar.visibility = View.GONE
+                    binding.noFoundTextVeiw.visibility = View.GONE
                 }
             }
         })
