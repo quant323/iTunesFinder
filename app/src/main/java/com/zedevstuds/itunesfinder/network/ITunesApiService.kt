@@ -14,10 +14,12 @@ import retrofit2.http.Query
 
 private const val BASE_URL = "https://itunes.apple.com/"
 
+// Для конвертации json в Kotlin data class исп. библиотеку Moshi
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
 
+// Создаем объект Retrofit
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .baseUrl(BASE_URL)
@@ -35,6 +37,7 @@ fun getClient(): OkHttpClient {
     return client
 }
 
+// Интерфейс для совершения GET запросов
 interface ITunesApiService {
     // https://itunes.apple.com/search?term=load&media=music&entity=album&attribute=albumTerm&explicit=no
     @GET("search")
@@ -55,6 +58,7 @@ interface ITunesApiService {
     ): Call<ResponseModel>
 }
 
+// Для доступа к интерфейсу ITunesApiService, создаем синглтон
 object ITunesApi {
     val retrofitService: ITunesApiService by lazy {
         retrofit.create(ITunesApiService::class.java)

@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.zedevstuds.itunesfinder.ALBUM_ID
+import com.zedevstuds.itunesfinder.LoadingStatus
 import com.zedevstuds.itunesfinder.R
 import com.zedevstuds.itunesfinder.databinding.FragmentMainScreenBinding
 import com.zedevstuds.itunesfinder.reformatQuery
@@ -38,15 +39,32 @@ class MainScreenFragment : Fragment() {
         binding.albumResView.adapter = adapter
 
         viewModel = ViewModelProvider(this).get(MainScreenViewModel::class.java)
+        // Подписываемся на изменение сипска альбомов
         viewModel.albums.observe(viewLifecycleOwner, Observer {
             // Сообщаем адаптеру об изменении списка
             adapter.submitList(it)
-            // Если лист пуст - показываем сообщение
+            // Если список пуст - показываем сообщение
             if (it.isEmpty()) binding.noFoundTextVeiw.visibility = View.VISIBLE
-            else binding.noFoundTextVeiw.visibility = View.INVISIBLE
+            else binding.noFoundTextVeiw.visibility = View.GONE
         })
 
-        // Нажатие на кнапку поиска
+        // Подписываемся на изменение статуса загрузки
+        viewModel.status.observe(viewLifecycleOwner, Observer {status ->
+            when(status) {
+                LoadingStatus.LOADING -> {
+                    binding.loadingImageView.setImageResource(R.drawable.loading_animation)
+                    binding.loadingImageView.visibility = View.VISIBLE
+                }
+                LoadingStatus.DONE -> {
+                    binding.loadingImageView.visibility = View.GONE
+                }
+                LoadingStatus.ERROR -> {
+
+                }
+            }
+        })
+
+        // Нажатие на кнопку поиска
         binding.searchBtn.setOnClickListener {
             val enteredQuery = binding.searchEditText.text.toString()
             if (enteredQuery.isNotEmpty()) {

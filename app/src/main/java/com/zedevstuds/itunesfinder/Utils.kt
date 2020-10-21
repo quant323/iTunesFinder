@@ -4,6 +4,8 @@ import com.zedevstuds.itunesfinder.network.models.AlbumSongModel
 
 const val ALBUM_ID = "albumId"
 
+enum class LoadingStatus { LOADING, ERROR, DONE}
+
 // Заменяет пробелы на знак +
 fun reformatQuery(text: String): String {
     return text.trim().replace("\\s+".toRegex(), "+")
