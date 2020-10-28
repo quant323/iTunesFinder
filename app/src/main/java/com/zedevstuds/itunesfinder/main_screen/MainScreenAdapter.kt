@@ -14,7 +14,7 @@ import com.zedevstuds.itunesfinder.network.models.AlbumSongModel
 class MainScreenAdapter(private val onClickListener: OnClickListener) : ListAdapter<AlbumSongModel, MainScreenAdapter.AlbumViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
-        return AlbumViewHolder(AlbumItemBinding.inflate(LayoutInflater.from(parent.context)))
+        return AlbumViewHolder(AlbumItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {

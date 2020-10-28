@@ -50,7 +50,6 @@ class MainScreenFragment : Fragment() {
         viewModel.status.observe(viewLifecycleOwner, Observer {status ->
             when(status) {
                 LoadingStatus.LOADING -> {
-                    Toast.makeText(this.context, "Loadind", Toast.LENGTH_SHORT).show()
                     binding.loadingProgressBar.visibility = View.VISIBLE
                     binding.noFoundTextVeiw.visibility = View.GONE
                 }
