@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController)
     }
 
-    // Создание Up Button в DetailsFragment
+    // Задание действия по нажатию кнопки "Назад" на Toolbar
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.nav_host_fragment)
         return navController.navigateUp()
