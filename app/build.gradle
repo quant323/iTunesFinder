@@ -17,7 +17,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        // Включаем dataBinding
+        // Включаем viewBinding
         viewBinding.enabled = true
     }
 
@@ -28,6 +28,7 @@ android {
         }
     }
 
+    // не требуется, удалить!
     buildFeatures {
         dataBinding true
     }
