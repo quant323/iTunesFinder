@@ -2,11 +2,15 @@ package com.zedevstuds.itunesfinder.main_screen
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,11 +20,11 @@ import com.zedevstuds.itunesfinder.LoadingStatus
 import com.zedevstuds.itunesfinder.R
 import com.zedevstuds.itunesfinder.databinding.FragmentMainScreenBinding
 import com.zedevstuds.itunesfinder.reformatQuery
+import org.w3c.dom.Text
 
 class MainScreenFragment : Fragment() {
 
-    private var _binding: FragmentMainScreenBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentMainScreenBinding
 
     private lateinit var viewModel: MainScreenViewModel
 
@@ -28,7 +32,7 @@ class MainScreenFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMainScreenBinding.inflate(layoutInflater, container, false)
+        binding = FragmentMainScreenBinding.inflate(layoutInflater, container, false)
 
         // Создаем adapter и устанавливаем onClickListener на каждый элемент списка
         val adapter = MainScreenAdapter(MainScreenAdapter.OnClickListener {
@@ -76,14 +80,33 @@ class MainScreenFragment : Fragment() {
 
         // Нажатие на кнопку поиска
         binding.searchBtn.setOnClickListener {
-            val enteredQuery = binding.searchEditText.text.toString()
-            if (enteredQuery.isNotEmpty()) {
-                val searchQuery = reformatQuery(enteredQuery)
-                viewModel.getAlbums(searchQuery)
-                hideKeyboard(it)
-            }
+            startSearching(it)
         }
+
+        // Нажатие на кнопку Enter SoftKeyboard
+        binding.searchEditText.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    v?.let {
+                        startSearching(it)
+                        return true
+                    }
+                }
+                return false
+            }
+        })
+
         return binding.root
+    }
+
+    // Запускает поиск по альбомам
+    private fun startSearching(view: View) {
+        val enteredQuery = binding.searchEditText.text.toString()
+        if (enteredQuery.isNotEmpty()) {
+            val searchQuery = reformatQuery(enteredQuery)
+            viewModel.getAlbums(searchQuery)
+            hideKeyboard(view)
+        }
     }
 
     // Прячет soft keyboard

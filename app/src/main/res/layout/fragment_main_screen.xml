@@ -17,6 +17,7 @@
         android:hint="@string/search_field_hint"
         android:inputType="text"
         android:singleLine="true"
+        android:imeOptions="actionSearch"
         app:layout_constraintEnd_toStartOf="@+id/search_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

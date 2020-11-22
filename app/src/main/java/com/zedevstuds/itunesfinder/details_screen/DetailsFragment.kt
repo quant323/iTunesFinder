@@ -18,8 +18,7 @@ import com.zedevstuds.itunesfinder.trimDate
 
 class DetailsFragment : Fragment() {
 
-    private var _binding: FragmentDetailsBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentDetailsBinding
 
     private lateinit var viewModel: DetailsViewModel
 
@@ -27,7 +26,7 @@ class DetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentDetailsBinding.inflate(layoutInflater, container, false)
+        binding = FragmentDetailsBinding.inflate(layoutInflater, container, false)
         val albumId = arguments?.getLong(ALBUM_ID)
 
         viewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
